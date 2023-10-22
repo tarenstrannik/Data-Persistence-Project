@@ -18,6 +18,7 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
+    [SerializeField] private Text maxScoreText;
     
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,8 @@ public class MainManager : MonoBehaviour
                 brick.PointValue = pointCountArray[i];
                 brick.onDestroyed.AddListener(AddPoint);
             }
+            maxScoreText.text = $"Best Score: {GameManager.Instance.GetBestPlayer().playerName} : {GameManager.Instance.GetBestPlayer().playerScore}";
+
         }
     }
 
@@ -50,8 +53,9 @@ public class MainManager : MonoBehaviour
                 forceDir.Normalize();
 
                 Ball.transform.SetParent(null);
-                Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+                Ball.AddForce(forceDir * 2.0f*GameManager.Instance.GetSpeedCoef(), ForceMode.VelocityChange);
             }
+
         }
         else if (m_GameOver)
         {
@@ -66,11 +70,23 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+        CheckScore();
     }
 
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+    }
+
+    private void CheckScore()
+    {
+
+        if (m_Points > GameManager.Instance.GetBestScore())
+        {
+            GameManager.Instance.UpdateBestList(m_Points);
+            maxScoreText.text = $"Best Score: {GameManager.Instance.GetBestPlayer().playerName} : {GameManager.Instance.GetBestPlayer().playerScore}";
+            
+        }
     }
 }
