@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-/*
+
 public class ShowLeaderList : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI  leadersList;
@@ -25,4 +25,4 @@ public class ShowLeaderList : MonoBehaviour
     {
         
     }
-}*/
+}
